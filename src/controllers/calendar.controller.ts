@@ -25,7 +25,7 @@ export class CalendarController {
             );
         }
 
-        // Parse the meetup groups, some validation about whether or not they exist would be nice...
+        // Parse the meetup groups and check that each exist
         const groups = meetupGroups.split(",");
         const result = await Promise.all(
             groups.map(group => checkMeetupGroupExists(group)),
