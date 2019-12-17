@@ -6,10 +6,10 @@ import {
     BadRequestException,
 } from "@nestjs/common";
 import { Response } from "express";
+import { ApiResponse, ApiOperation } from "@nestjs/swagger";
 
 import { CalendarService } from "../services";
 import { getMeetupICalUrl, checkMeetupGroupExists } from "../utils";
-import { ApiResponse, ApiOperation } from "@nestjs/swagger";
 
 @Controller()
 export class CalendarController {
