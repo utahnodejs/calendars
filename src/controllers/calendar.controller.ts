@@ -9,12 +9,29 @@ import { Response } from "express";
 
 import { CalendarService } from "../services";
 import { getMeetupICalUrl, checkMeetupGroupExists } from "../utils";
+import { ApiResponse, ApiProduces, ApiOperation } from "@nestjs/swagger";
 
 @Controller()
 export class CalendarController {
     public constructor(private readonly _calendarService: CalendarService) {}
 
     @Get("ical")
+    @ApiProduces("application/octet-stream")
+    @ApiResponse({
+        headers: {
+            "content-type": {
+                schema: { type: "application/octet-stream" },
+            },
+            "content-disposition": {
+                schema: { type: "attachment; filename=calendars.ics " },
+            },
+        },
+    })
+    @ApiOperation({
+        operationId: "getMergedMeetupICal",
+        description:
+            "Takes a list of Meetup groups and returns an iCal file with all of their events",
+    })
     public async getCombinedMeetupCalendar(
         @Query("meetup_groups") meetupGroups: string,
         @Res() res: Response,
