@@ -8,9 +8,7 @@ import {
 import { Response } from "express";
 
 import { CalendarService } from "../services";
-
-const getMeetupICalUrl = (groupName: string): string =>
-    `https://www.meetup.com/${groupName}/events/ical/`;
+import { getMeetupICalUrl, checkMeetupGroupExists } from "../utils";
 
 @Controller()
 export class CalendarController {
@@ -29,6 +27,14 @@ export class CalendarController {
 
         // Parse the meetup groups, some validation about whether or not they exist would be nice...
         const groups = meetupGroups.split(",");
+        const result = await Promise.all(
+            groups.map(group => checkMeetupGroupExists(group)),
+        );
+        if (result.indexOf(false) > -1) {
+            throw new BadRequestException(
+                "One or more meetup groups were not found",
+            );
+        }
 
         console.log(`Getting events for: `, groups);
 
