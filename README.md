@@ -4,7 +4,7 @@ This simple node.js app allows users to provide it with a list of meetup groups 
 
 The project can be run with:
 
-1. `yarn`
+1. `yarn install`
 2. `yarn start:dev`
 
 Then the project will be accessible on port `3000`
